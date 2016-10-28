@@ -33,9 +33,18 @@ import ar.org.tadp.pokemon.Actividades._
 		
 		def ganarExp(exp: Int) = {
 			val crecido = copy(caracteristicas = caracteristicas.copy(experiencia = experiencia + exp))
+			
 			//Parte 5
-			if (crecido.nivel > this.nivel) especie.condicionEvolutiva.map(_.subioDeNivel(crecido)).getOrElse(crecido)
-			else crecido
+			if(crecido.nivel > this.nivel){
+			  especie.condicionEvolutiva
+			    .map(_.subioDeNivel(crecido))
+			    .foldLeft(crecido)({(semilla, potencialmenteEvolucionado) => 
+			      if(potencialmenteEvolucionado.especie != this.especie)
+			        potencialmenteEvolucionado
+			      else semilla})
+			} else {
+			  crecido
+			}
 		}
 
 		def energia(delta: Int) = copy(caracteristicas = caracteristicas.copy(energia = energia + delta min energiaMaxima))

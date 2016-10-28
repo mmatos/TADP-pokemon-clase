@@ -42,20 +42,25 @@ object Actividades {
 	
 	//Parte 5
 	def fingirIntercambio(pokemon: Pokemon) = {
-		pokemon.especie.condicionEvolutiva match {
-			case Some(Intercambiar(evolucion)) => pokemon.copy(especie = evolucion)
-			case _ => pokemon.energia(-10)
-		}
+	  val pokemonTriste = pokemon.energia(-10)
+		pokemon.especie.condicionEvolutiva.foldLeft(pokemonTriste)({(poke, condicion)=>
+		      condicion match {
+		        case Intercambiar(evolucion) => pokemon.copy(especie = evolucion)
+		        case _ => poke
+		      }
+		})
 	}
 	
 	def usarPiedra(piedra: Piedra)(pokemon: Pokemon) = {
-		(piedra, pokemon.especie) match {
-			case (PiedraLunar, Especie(_, Some(UsarPiedra(PiedraLunar, evolucion)))) 
-			   => pokemon.copy(especie = evolucion)
-			case (piedra: Piedra, Especie(_, Some(UsarPiedra(piedraRequerida, evolucion)))) 
-			   if piedra == piedraRequerida => pokemon.copy(especie = evolucion)
-			case _ => pokemon
-		}
+	  
+	  pokemon.especie.condicionEvolutiva.foldLeft(pokemon)( { (poke, condicion) => 
+	    condicion match {
+	      case UsarPiedra(piedraRequerida, evolucion) if piedra == piedraRequerida =>
+	        pokemon.copy(especie = evolucion)
+	      case _ => poke
+	    }
+	  })
+	  
 	}
 	
 	//Parte 6

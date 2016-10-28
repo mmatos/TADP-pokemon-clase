@@ -4,7 +4,7 @@ package ar.org.tadp.pokemon
 	case class Especie(
 		tipos: (Tipo, Option[Tipo]),
 		//Parte 5
-		condicionEvolutiva: Option[CondicionEvolutiva] = None)(
+		condicionEvolutiva: List[CondicionEvolutiva] = Nil)(
 		val resistenciaEvolutiva: Int = 200,
 		val pesoMaximo: Int = 80,
 		val incrementos: Incrementos
