@@ -12,7 +12,7 @@ package ar.org.tadp.pokemon
     def esDeTipo(tipo : Tipo) : Boolean = {
       tipos match {
         case (t, _) if t == tipo => true
-        case (_, Some(t)) if t == tipo => true
+        case (_, secundario) => secundario.contains(tipo)
         case _ => false
       }
     }
